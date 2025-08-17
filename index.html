@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YC - Sites e Softwares</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    background: #111;
+    overflow-x: hidden;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+}
+header h1 { font-weight: bold; color: #fff; }
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #ccc;
+    font-weight: bold;
+    transition: 0.3s;
+}
+nav a:hover { color: #fff; }
+
+#particles-js { position: fixed; width: 100%; height: 100%; z-index: 0; top: 0; left: 0; }
+
+section {
+    position: relative;
+    z-index: 5;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 100px 20px 80px 20px;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1s ease-out;
+}
+section.visible { opacity: 1; transform: translateY(0); }
+
+.hero { text-align: center; }
+.typing-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    max-width: 900px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+.typing-text span.gray { color: #aaa; text-shadow: 0 0 8px rgba(170,170,170,0.6); }
+
+.section-title { font-size: 2rem; margin-bottom: 50px; color: #fff; text-align: center; }
+
+.service-grid, .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1200px; margin: auto; }
+
+.card {
+    background: rgba(255,255,255,0.05);
+    padding: 25px;
+    border-radius: 12px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.card:hover {
+    background: rgba(255,255,255,0.12);
+    transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+}
+
+.contact a {
+    display: inline-block;
+    background: #ccc;
+    color: #111;
+    padding: 15px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.contact a:hover { background: #fff; }
+
+@media(max-width:768px){
+    header { padding: 15px 20px; }
+    .typing-text { font-size: 1.8rem; }
+}
+/* Aparência da digitação */
+.service-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card .type-target {
+  display: inline-block;
+  min-height: 1.4em;
+  white-space: nowrap;
+}
+
+.service-card .caret {
+  display: inline-block;
+  width: 10px;
+  height: 1.2em;
+  transform: translateY(2px);
+  background: currentColor;
+  opacity: 0;
+  margin-left: 3px;
+}
+
+.service-card.typing .caret {
+  animation: blink 1s step-end infinite;
+  opacity: 1;
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+.services {
+  text-align: center;
+  padding: 60px 20px;
+  /* ❌ removido o fundo preto */
+  background: transparent;
+}
+
+.section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  margin-bottom: 35px;
+  color: #fff; /* pode mudar se o fundo for claro */
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+.service-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #ddd;
+  transition: all 0.4s ease;
+  cursor: default;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Efeito neon no hover */
+.service-text:hover {
+  color: #00f7ff;
+  text-shadow: 0 0 5px #00f7ff, 
+               0 0 10px #00f7ff, 
+               0 0 20px #00f7ff, 
+               0 0 40px #00c4cc;
+  transform: scale(1.1);
+}
+
+
+</style>
+</head>
+<body>
+
+<div id="particles-js"></div>
+
+<header>
+    <h1>Yume Core</h1>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">Quem Somos</a>
+        <a href="#services">Serviços</a>
+        <a href="#portfolio">Portfólio</a>
+        <a href="#contact">Contato</a>
+    </nav>
+</header>
+
+<section class="hero" id="home">
+    <div class="typing-text" id="typing"></div>
+</section>
+
+
+<!-- SEÇÃO SERVIÇOS COM DIGITAÇÃO NO HOVER -->
+<section class="services" id="services">
+  <h2 class="section-title">Nossos Serviços</h2>
+  <div class="service-grid">
+    <p class="service-text">Criação de Sites Profissionais</p>
+    <p class="service-text">Desenvolvimento de Softwares</p>
+    <p class="service-text">Sistemas Sob Medida</p>
+  </div>
+</section>
+
+
+
+<section class="portfolio" id="portfolio">
+    <h2 class="section-title">Portfólio</h2>
+    <div class="portfolio-grid">
+        <div class="card">
+            <a href="https://flimportss.wuaze.com" target="_blank" style="color:#fff; text-decoration:none;">
+                <img src="Captura de tela de 2025-08-10 22-30-35.png" alt="Flimportss" style="width:100%; border-radius:10px; margin-bottom:15px;">
+                <div style="text-align:center; font-weight:bold;">Flimportss</div>
+                <p> </p>
+            </a>
+        </div>
+        <div class="card">Projeto B</div>
+        <div class="card">Projeto C</div>
+        <div class="card">Projeto D</div>
+    </div>
+</section>
+
+
+<section class="contact" id="contact">
+    <h2 class="section-title">Contato</h2>
+    <a href="https://wa.me/5541995476712" target="_blank"> 📱 WhatsApp - Guilherme</a>
+    <h2 class="section-title"></h2>
+    <a href="https://wa.me/5541998992470" target="_blank"> 📱 WhatsApp - Bruna</a>
+    
+</section>
+<section class="about" id="about">
+    <h2 class="section-title">Quem Somos Nós</h2>
+    <p style="max-width:800px; text-align:center; margin:auto; font-size:1.2rem; line-height:1.6; color:#ccc;">
+        Somos dois programadores apaixonados pela criação de soluções digitais. 
+        Cada linha de código que escrevemos reflete nossa dedicação, criatividade e o desejo de transformar ideias em experiências únicas. 
+        Juntos, unimos talento, parceria e inovação para levar tecnologia de qualidade aos nossos clientes.
+    </p>
+</section>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+// Partículas cinza minimalistas
+particlesJS("particles-js", {
+    particles: {
+        number: { value: 80 },
+        color: { value: "#aaa" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5 },
+        size: { value: 3 },
+        line_linked: { enable: true, color: "#aaa" },
+        move: { enable: true, speed: 2 }
+    }
+});
+
+// Digitação com duas cores
+const text = "A tecnologia dá a chave, e a YC abre a porta para você.";
+const typingElement = document.getElementById('typing');
+let index = 0;
+function type() {
+    if(index < text.length){
+        let char = text.charAt(index);
+        if(index >= text.indexOf("YC") && index < text.indexOf("YC")+2){
+            typingElement.innerHTML += `<span class="gray">${char}</span>`;
+        } else {
+            typingElement.innerHTML += char;
+        }
+        index++;
+        setTimeout(type, 70);
+    }
+}
+type();
+
+// Fade-in das seções ao scroll
+const sections = document.querySelectorAll('section');
+function revealSections(){
+    const triggerBottom = window.innerHeight / 5 * 4;
+    sections.forEach(section => {
+        const sectionTop = section.getBoundingClientRect().top;
+        if(sectionTop < triggerBottom){
+            section.classList.add('visible');
+        }
+    });
+}
+window.addEventListener('scroll', revealSections);
+window.addEventListener('load', revealSections);
+
+// Parallax leve com mouse
+window.addEventListener('mousemove', e => {
+    const { innerWidth, innerHeight } = window;
+    const x = (e.clientX / innerWidth) * 20;
+    const y = (e.clientY / innerHeight) * 20;
+    document.getElementById('particles-js').style.transform = `translate(${x}px, ${y}px)`;
+});
+(function(){
+  const speed = 35; // ms por caractere
+  const cards = document.querySelectorAll('.service-card');
+
+  // prepara cada card
+  cards.forEach(card => {
+    const text = card.getAttribute('data-text') || '';
+    const target = card.querySelector('.type-target');
+    let i = 0;
+    let timer = null;
+
+    // garante estado inicial vazio
+    target.textContent = '';
+
+    const type = () => {
+      if (i < text.length) {
+        target.textContent += text.charAt(i++);
+        timer = setTimeout(type, speed);
+      }
+    };
+
+    const reset = () => {
+      clearTimeout(timer);
+      timer = null;
+      i = 0;
+      target.textContent = '';
+    };
+
+    card.addEventListener('mouseenter', () => {
+      // recomeça sempre que entrar
+      reset();
+      card.classList.add('typing');
+      type();
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.classList.remove('typing');
+      reset();
+    });
+
+    // acessibilidade: digitação também ao focar via teclado
+    card.setAttribute('tabindex', '0');
+    card.addEventListener('focus', () => {
+      reset();
+      card.classList.add('typing');
+      type();
+    });
+    card.addEventListener('blur', () => {
+      card.classList.remove('typing');
+      reset();
+    });
+  });
+})();
+</script>
+
+</script>
+
+</body>
+</html>
