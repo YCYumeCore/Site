@@ -5,33 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yume Core Technology | Inovação e Soluções</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --azul-primario: #004aad;
-            --azul-escuro: #002d6b;
-            --branco: #ffffff;
-            --cinza-claro: #f4f7f6;
-            --texto: #333;
+            --bg-color: #050505;
+            --surface-color: #121212;
+            --surface-light: #1e1e1e;
+            --primary: #4f46e5; /* Indigo/Azul vibrante */
+            --secondary: #0ea5e9; /* Azul claro */
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Outfit', sans-serif;
             scroll-behavior: smooth;
         }
 
         body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
             line-height: 1.6;
-            color: var(--texto);
-            background-color: var(--branco);
         }
 
-        /* Header */
+        /* Efeito de brilho de fundo (Glow) */
+        .background-glow {
+            position: fixed;
+            top: -20%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .background-glow.right {
+            top: 40%;
+            left: auto;
+            right: -10%;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.1) 0%, rgba(0,0,0,0) 70%);
+        }
+
+        /* Header - Efeito Vidro (Glassmorphism) */
         header {
-            background: var(--branco);
-            padding: 1rem 5%;
+            background: rgba(5, 5, 5, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 1.2rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -39,154 +65,250 @@
             width: 100%;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .logo {
-            font-weight: bold;
+            font-weight: 900;
             font-size: 1.5rem;
-            color: var(--azul-primario);
+            letter-spacing: 1px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         nav a {
-            margin-left: 20px;
+            margin-left: 30px;
             text-decoration: none;
-            color: var(--azul-escuro);
+            color: var(--text-main);
             font-weight: 500;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--secondary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--secondary);
             transition: 0.3s;
         }
 
-        /* Seção Hero - Menor e Interativa */
+        nav a:hover::after { width: 100%; }
+
+        /* Hero Section Imersiva */
         .hero {
-            height: 60vh; /* Altura reduzida */
-            background: linear-gradient(135deg, var(--azul-primario), var(--azul-escuro));
-            color: var(--branco);
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             padding: 0 20px;
-            margin-top: 60px;
-            overflow: hidden;
+            position: relative;
         }
 
         .hero h1 { 
-            font-size: 3.5rem; 
-            margin-bottom: 10px; 
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), text-shadow 0.5s;
-            cursor: default;
-        }
-
-        /* Efeito de movimento no Mouse */
-        .hero h1:hover {
-            transform: scale(1.1) translateY(-5px);
-            text-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            font-size: clamp(3rem, 8vw, 6rem); 
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px; 
+            letter-spacing: -2px;
+            animation: fadeUp 1s ease-out;
         }
 
         .hero p { 
-            font-size: 1.3rem; 
-            max-width: 800px; 
-            font-style: italic; 
-            opacity: 0.9;
-            transition: 0.4s;
+            font-size: clamp(1.2rem, 2vw, 1.5rem); 
+            color: var(--text-muted);
+            max-width: 700px; 
+            font-weight: 300;
+            animation: fadeUp 1.2s ease-out;
         }
 
-        .hero p:hover {
-            color: #a0c4ff;
-            letter-spacing: 1px;
+        /* Animações de entrada */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Seções */
-        section { padding: 80px 10%; }
-        h2 { text-align: center; color: var(--azul-primario); margin-bottom: 40px; font-size: 2rem; }
+        /* Seções Gerais */
+        section { padding: 120px 10%; position: relative; }
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .section-title span { color: var(--primary); }
 
-        /* Serviços */
+        /* Serviços - Estilo Bento Box */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
 
         .service-card {
-            background: var(--branco);
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            border-bottom: 4px solid var(--azul-primario);
-            transition: 0.3s;
+            background: var(--surface-color);
+            padding: 40px 30px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .service-card:hover { transform: translateY(-10px); }
-        .service-card i { font-size: 2.5rem; color: var(--azul-primario); margin-bottom: 15px; }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), transparent);
+            opacity: 0;
+            transition: 0.4s;
+        }
+
+        .service-card:hover { 
+            transform: translateY(-10px); 
+            border-color: rgba(79, 70, 229, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .service-card:hover::before { opacity: 1; }
+
+        .service-card i { 
+            font-size: 3rem; 
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px; 
+        }
+
+        .service-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
+        .service-card p { color: var(--text-muted); font-size: 1rem; }
 
         /* Portfólio Carrossel */
         .portfolio-container {
             display: flex;
             overflow-x: auto;
-            gap: 20px;
-            padding: 20px 0;
+            gap: 30px;
+            padding-bottom: 40px;
             snap-type: x mandatory;
-            scrollbar-width: thin;
-            scrollbar-color: var(--azul-primario) transparent;
+            scrollbar-width: none; /* Esconde scroll no Firefox */
         }
+        .portfolio-container::-webkit-scrollbar { display: none; } /* Esconde scroll no Chrome/Safari */
 
         .portfolio-video-card {
-            min-width: 300px;
-            height: 450px;
-            background: #000;
-            border-radius: 15px;
+            min-width: 350px;
+            height: 500px;
+            background: var(--surface-light);
+            border-radius: 30px;
             overflow: hidden;
             snap-align: center;
             position: relative;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: 0.5s;
         }
+
+        .portfolio-video-card:hover { transform: scale(0.98); }
 
         .portfolio-video-card video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.7;
-            transition: 0.3s;
+            filter: brightness(0.6) grayscale(50%);
+            transition: 0.5s;
         }
 
-        .portfolio-video-card:hover video { opacity: 1; }
+        .portfolio-video-card:hover video { 
+            filter: brightness(0.9) grayscale(0%); 
+        }
 
         .video-label {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
-            color: white;
+            bottom: 30px;
+            left: 30px;
             z-index: 2;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
         }
 
-        /* Quem Somos - Abaixo de tudo */
-        .about { background: var(--cinza-claro); text-align: center; border-top: 1px solid #ddd; }
-        .about p { max-width: 800px; margin: 0 auto; font-size: 1.1rem; }
+        .video-label h3 { font-size: 1.8rem; margin-bottom: 5px; }
+        .video-label p { 
+            background: rgba(255,255,255,0.1); 
+            padding: 5px 15px; 
+            border-radius: 20px; 
+            display: inline-block; 
+            font-size: 0.8rem; 
+            backdrop-filter: blur(5px);
+        }
+
+        /* Sobre */
+        .about { 
+            text-align: center; 
+            background: linear-gradient(to bottom, var(--bg-color), var(--surface-color));
+        }
+        .about p { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1.5rem; 
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-weight: 300;
+        }
 
         /* Footer */
         footer {
-            background: var(--azul-escuro);
-            color: var(--branco);
-            padding: 40px 5%;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 5%;
             text-align: center;
+            background: var(--bg-color);
         }
 
+        .social-links { margin-bottom: 30px; }
         .social-links a {
-            color: var(--branco);
-            font-size: 2rem;
-            margin: 0 15px;
-            transition: 0.3s;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            background: var(--surface-light);
+            border-radius: 50%;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: 0.4s;
+            border: 1px solid rgba(255,255,255,0.05);
         }
         
-        .social-links .fa-instagram:hover { color: #E1306C; transform: scale(1.2); }
-        .social-links .fa-whatsapp:hover { color: #25D366; transform: scale(1.2); }
+        .social-links a:hover { 
+            transform: translateY(-5px); 
+            background: var(--primary);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.4);
+            border-color: transparent;
+        }
 
+        footer p { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            nav { display: none; /* Em um site real, aqui entraria um menu hambúrguer */ }
+            section { padding: 80px 5%; }
+            .portfolio-video-card { min-width: 280px; height: 400px; }
+            .about p { font-size: 1.2rem; }
+        }
     </style>
 </head>
 <body>
+
+    <div class="background-glow"></div>
+    <div class="background-glow right"></div>
 
     <header>
         <div class="logo">YUME CORE</div>
@@ -199,40 +321,39 @@
     </header>
 
     <section id="inicio" class="hero">
-        <h1>Yume Core Technology</h1>
-        <p>"A tecnologia dá a chave e a Yume Core abre as portas para sua empresa."</p>
+        <h1>Moldando o futuro<br>com código.</h1>
+        <p>A tecnologia constrói a chave. A Yume Core abre as portas para a próxima geração da sua empresa.</p>
     </section>
 
     <section id="servicos">
-        <h2>Nossos Serviços</h2>
+        <h2 class="section-title">Nossos <span>Serviços</span></h2>
         <div class="services-grid">
             <div class="service-card">
                 <i class="fas fa-robot"></i>
                 <h3>Automação</h3>
-                <p>Otimização de processos repetitivos.</p>
+                <p>Otimização de processos repetitivos para focar no que realmente importa.</p>
             </div>
             <div class="service-card">
-                <i class="fas fa-code"></i>
-                <h3>Sites</h3>
-                <p>Design moderno e alta performance.</p>
+                <i class="fas fa-layer-group"></i>
+                <h3>Web Design</h3>
+                <p>Sites imersivos, rápidos e focados na melhor experiência do usuário.</p>
             </div>
             <div class="service-card">
                 <i class="fas fa-laptop-code"></i>
                 <h3>Softwares</h3>
-                <p>Sistemas robustos e personalizados.</p>
+                <p>Sistemas robustos, escaláveis e desenvolvidos sob medida para sua dor.</p>
             </div>
             <div class="service-card">
-                <i class="fas fa-chart-line"></i>
+                <i class="fas fa-chart-network"></i>
                 <h3>Análise de Dados</h3>
-                <p>Estatísticas que geram lucro.</p>
+                <p>Transformamos números em estatísticas claras que geram lucro previsível.</p>
             </div>
         </div>
     </section>
 
     <section id="portfolio">
-        <h2>Nosso Portfólio</h2>
+        <h2 class="section-title">Nosso <span>Portfólio</span></h2>
         <div class="portfolio-container">
-            <!-- Card de Vídeo 1 -->
             <div class="portfolio-video-card">
                 <video autoplay muted loop playsinline>
                     <source src="SEU_VIDEO_AQUI_1.mp4" type="video/mp4">
@@ -242,35 +363,33 @@
                     <p>Automação Industrial</p>
                 </div>
             </div>
-            <!-- Card de Vídeo 2 -->
             <div class="portfolio-video-card">
                 <video autoplay muted loop playsinline>
                     <source src="SEU_VIDEO_AQUI_2.mp4" type="video/mp4">
                 </video>
                 <div class="video-label">
                     <h3>E-commerce Y</h3>
-                    <p>Web Design</p>
+                    <p>Web Experience</p>
                 </div>
             </div>
-            <!-- Card de Vídeo 3 -->
             <div class="portfolio-video-card">
                 <video autoplay muted loop playsinline>
                     <source src="SEU_VIDEO_AQUI_3.mp4" type="video/mp4">
                 </video>
                 <div class="video-label">
                     <h3>App Dashboard</h3>
-                    <p>Análise de Dados</p>
+                    <p>Data & Analytics</p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="sobre" class="about">
-        <h2>Quem Somos Nós?</h2>
+        <h2 class="section-title">Quem <span>Somos</span></h2>
         <p>
-            Somos uma empresa dedicada a transformar o potencial tecnológico em realidade para o seu negócio. 
-            Na Yume Core, acreditamos que a inovação deve ser acessível e estratégica, focando em entregar 
-            soluções que impulsionam o crescimento e a eficiência.
+            Somos um estúdio de tecnologia dedicado a transformar o potencial digital em realidade. 
+            Na <strong>Yume Core</strong>, combinamos engenharia de software de alto nível com design premiado 
+            para entregar soluções que impulsionam o crescimento e a eficiência de forma memorável.
         </p>
     </section>
 
@@ -279,7 +398,7 @@
             <a href="https://instagram.com/SEU_USER" target="_blank"><i class="fab fa-instagram"></i></a>
             <a href="https://wa.me/SEU_NUMERO" target="_blank"><i class="fab fa-whatsapp"></i></a>
         </div>
-        <p>&copy; 2026 Yume Core Technology. Todos os direitos reservados.</p>
+        <p>&copy; 2026 Yume Core Technology. Redefinindo o padrão digital.</p>
     </footer>
 
 </body>
